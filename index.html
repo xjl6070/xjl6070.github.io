@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>旅途纪实</title>
+    <style>
+        /* 页面基础：旅行手账风格 */
+        body {
+            /* 采用米白色纸张质感背景 */
+            background-color: #f4f1ea;
+            background-image: url('data:image/svg+xml;utf8,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="4" stitchTiles="stitch"/></filter><rect width="100" height="100" filter="url(%23noise)" opacity="0.05"/></svg>');
+            color: #333;
+            font-family: "Georgia", "Times New Roman", serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* 顶部标题栏 */
+        header {
+            text-align: center;
+            padding: 80px 20px 40px;
+            margin-bottom: 20px;
+            border-bottom: 2px dashed #d1ccc0;
+            position: relative;
+        }
+
+            header h1 {
+                font-size: 3em;
+                color: #2c3e50;
+                margin: 0;
+                letter-spacing: 5px;
+                font-weight: normal;
+            }
+
+            header p {
+                color: #7f8c8d;
+                font-style: italic;
+                font-size: 1.2em;
+                margin-top: 15px;
+                letter-spacing: 1px;
+            }
+
+        /* 相册网格布局 */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 40px;
+            padding: 40px 60px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* 拍立得相框样式 */
+        .photo-card {
+            background-color: #ffffff;
+            padding: 15px 15px 50px 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            position: relative;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+
+            /* 使用 CSS 伪元素添加胶带效果 */
+            .photo-card::before {
+                content: '';
+                position: absolute;
+                top: -10px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 80px;
+                height: 25px;
+                background-color: rgba(255, 255, 255, 0.6);
+                box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+                z-index: 2;
+                opacity: 0.8;
+            }
+
+            .photo-card img {
+                width: 100%;
+                height: 280px;
+                object-fit: cover;
+                display: block;
+                background-color: #e0e0e0; /* 图片加载前的占位色 */
+            }
+
+            /* 鼠标悬停交互 */
+            .photo-card:hover {
+                transform: translateY(-8px) scale(1.02);
+                box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+                z-index: 10;
+            }
+
+        /* 底部页脚 */
+        footer {
+            text-align: center;
+            padding: 40px;
+            color: #95a5a6;
+            font-size: 0.9em;
+            border-top: 1px solid #d1ccc0;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>行摄纪实</h1>
+        <p>步履不停，记录沿途的风景与自由瞬间</p>
+    </header>
+
+    <main class="gallery" id="gallery-container">
+    </main>
+
+    <footer>
+        <p>Total Photos: 72 | Travel Memories</p>
+    </footer>
+
+    <script>
+        // 配置参数
+        const totalPhotos = 72; // 照片总数
+        const imageFolder = 'images/'; // 照片存放路径
+        const imageExtension = '.jpg'; // 照片格式后缀
+
+        const galleryContainer = document.getElementById('gallery-container');
+
+        // 循环自动生成 HTML 结构
+        for (let i = 1; i <= totalPhotos; i++) {
+            // 创建相框 div
+            const cardDiv = document.createElement('div');
+            cardDiv.className = 'photo-card';
+
+            // 为了模拟真实的拍立得摆放，给每张照片随机一个微小的旋转角度（-2度到2度之间）
+            const randomRotation = (Math.random() * 4 - 2).toFixed(1);
+            cardDiv.style.transform = `rotate(${randomRotation}deg)`;
+
+            // 创建图片 img
+            const imgEl = document.createElement('img');
+            imgEl.src = `${imageFolder}${i}${imageExtension}`;
+            imgEl.alt = `旅行纪念 - 照片 ${i}`;
+
+            // 开启懒加载：只有当图片滚动到可视区域时才加载，极大优化 72 张图片的页面性能
+            imgEl.loading = 'lazy';
+
+            // 处理图片加载失败的情况（例如某张图片漏传或后缀名不对）
+            imgEl.onerror = function() {
+                this.style.display = 'none';
+                console.warn(`无法加载图片: ${this.src}`);
+            };
+
+            // 组合元素
+            cardDiv.appendChild(imgEl);
+            galleryContainer.appendChild(cardDiv);
+        }
+    </script>
+</body>
+</html>
