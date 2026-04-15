@@ -112,12 +112,12 @@
     </main>
 
     <footer>
-        <p>Total Photos: 72 | Travel Memories</p>
+        <p>Total Photos: 65 | Travel Memories</p>
     </footer>
 
     <script>
         // 配置参数
-        const totalPhotos = 72; // 照片总数
+        const totalPhotos = 65; // 照片总数
         const imageFolder = 'images/'; // 照片存放路径
         const imageExtension = '.jpg'; // 照片格式后缀
 
@@ -138,7 +138,7 @@
             imgEl.src = `${imageFolder}${i}${imageExtension}`;
             imgEl.alt = `旅行纪念 - 照片 ${i}`;
 
-            // 开启懒加载：只有当图片滚动到可视区域时才加载，极大优化 72 张图片的页面性能
+            // 开启懒加载：只有当图片滚动到可视区域时才加载，极大优化 65 张图片的页面性能
             imgEl.loading = 'lazy';
 
             // 处理图片加载失败的情况（例如某张图片漏传或后缀名不对）
